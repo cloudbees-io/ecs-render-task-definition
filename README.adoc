@@ -1,0 +1,24 @@
+= CloudBees action: Render the Task Definition for ECS Deployment
+
+Use this action to Render the task Definition for ECS Deployment.
+
+== Usage
+
+In your YAML file, add:
+
+[source,yaml]
+----
+      - name: Render Task Definition
+        uses: cloudbees-io/ecs-render-task-definition-private@v1
+        with:
+          task-definition: TaskDefinition <1>
+          container-name: ContainerName <2>
+          image: ImageURI <3>
+          environment-variables: Environment variables as key value pair <4>
+          environment-variables-path: Environment variables
+----
+<1> The path to the ECS task definition JSON file.
+<2> The container name to render the image
+<3> Image URI to be rendered
+<4> Environment variables as key value pair. Each variable is of the form key=value eg: 
+environment-variables: LOG_LEVEL=info,ENVIRONMENT=prod

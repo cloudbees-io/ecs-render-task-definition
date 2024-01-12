@@ -1,0 +1,33 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: action
+name: Render ECS Task Definition
+inputs:
+  task-definition:
+    description: 'The path to the ECS task definition JSON file. (Optional if task-definition-name is given)'
+    required: true
+  container-name:
+    description: 'The name of the container defined in the containerDefinitions section of the ECS task definition'
+    required: true
+  image:
+    description: 'The URI of the container image to insert into the ECS task definition'
+    required: true
+  environment-variables:
+    description: 'Variables to add to the container. Each variable is of the form KEY=value, you can specify multiple variables with comma separated string.'
+    required: false
+  environment-variables-path:
+    description: 'Variables to add to the container.'
+    required: false
+outputs:
+  task-definition:
+    value: ${{ steps.render-task-definition.outputs.task-definition }}
+    description: The path to the rendered task definition file
+
+runs:
+  using: composite
+  steps:
+    - id: render-task-definition
+      name: render-task-definition
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/ecs-render-task-definition-action:main-fb100405daa3b4da903ca8c3ba81af6a9ba9b5b5
+      with:
+        entrypoint: ecs-render-task-definition-action
+        args: --task-definition "${{ inputs.task-definition }}" --container-name "${{ inputs.container-name }}" --image "${{ inputs.image }}" --environment-variables "${{ inputs.environment-variables }}" --environment-variables-path "${{ inputs.environment-variables-path }}"
