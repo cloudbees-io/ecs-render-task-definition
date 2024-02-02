@@ -1,24 +1,69 @@
-= CloudBees action: Render the Task Definition for ECS Deployment
+= CloudBees action: Render an Amazon ECS task definition
 
-Use this action to Render the task Definition for ECS Deployment.
+Use this action to render an Amazon Elastic Container Service (ECS) task definition.
 
-== Usage
+== Inputs
+
+[cols="2a,1a,1a,3a",options="header"]
+.Input details
+|===
+
+| Input name
+| Data type
+| Required?
+| Description
+
+| `task-definition`
+| String
+| No
+| The path to the ECS task definition JSON file. Required only if `task-definition-name` is not specified.
+
+| `container-name`
+| String
+| Yes
+| The container name as defined in the ECS task definition (in `containerDefinitions`).
+
+| `image`
+| String
+| Yes
+| The container image URL.
+
+| `environment-variables`
+| JSON
+| No
+| Container variables , formatted as JSON data in key/value pairs.
+
+| `environment-variables-path`
+| String
+| No
+| The path of the file that contains the environment variables.
+
+|===
+
+== Usage example
 
 In your YAML file, add:
 
 [source,yaml]
 ----
-      - name: Render Task Definition
-        uses: cloudbees-io/ecs-render-task-definition-private@v1
+
+      - name: Render task definition
+        uses: cloudbees-io/ecs-render-task-definition@v1
         with:
-          task-definition: TaskDefinition <1>
-          container-name: ContainerName <2>
-          image: ImageURI <3>
-          environment-variables: Environment variables as key value pair <4>
-          environment-variables-path: Environment variables
+          task-definition: test/taskDefinition.json
+          container-name: container_name
+          image: ${{ vars.IMAGE_URL }}
+          environment-variables: '{"LOG_LEVEL"="info","ENVIRONMENT"="prod"}'
+          environment-variables-path: sample/example.json
+
 ----
-<1> The path to the ECS task definition JSON file.
-<2> The container name to render the image
-<3> Image URI to be rendered
-<4> Environment variables as key value pair. Each variable is of the form key=value eg: 
-environment-variables: LOG_LEVEL=info,ENVIRONMENT=prod
+
+== License
+
+This code is made available under the 
+link:https://opensource.org/license/mit/[MIT license].
+
+== References
+
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform-actions/latest/[using actions in CloudBees workflows].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform/latest/[the CloudBees platform].
