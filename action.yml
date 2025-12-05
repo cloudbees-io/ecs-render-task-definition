@@ -27,8 +27,7 @@ runs:
   steps:
     - id: render-task-definition
       name: render-task-definition
-      # uses: docker://public.ecr.aws/l7o7z1g8/actions/ecs-render-task-definition-action:main-284833c4eb1ed12572ea4149537b55aafb6095b4
-      uses: docker://020229604682.dkr.ecr.us-east-1.amazonaws.com/actions/ecs-render-task-definition-action:main-d5a0e4cced8b4a65297400a5316417171206be64
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/ecs-render-task-definition-action:main-d5a0e4cced8b4a65297400a5316417171206be64
       with:
         entrypoint: /app/cb_ecs_render_task_definition_app
         args: --task-definition "${{ inputs.task-definition }}" --container-name "${{ inputs.container-name }}" --image "${{ inputs.image }}" --environment-variables "${{ inputs.environment-variables }}" --environment-variables-path "${{ inputs.environment-variables-path }}"
